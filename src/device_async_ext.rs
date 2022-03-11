@@ -162,7 +162,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::util::DeviceExt::create_texture_with_data]
     async fn create_texture_with_data_async<'a>(
         &'a self,
-        queue: &Arc<Queue>,
+        queue: &Queue,
         desc: &'a TextureDescriptor<'a>,
         data: Vec<u8>,
     ) -> Texture;
@@ -291,7 +291,7 @@ impl DeviceAsyncExt for Device {
 
     async fn create_texture_with_data_async<'a>(
         &'a self,
-        queue: &Arc<Queue>,
+        queue: &Queue,
         desc: &'a TextureDescriptor<'a>,
         data: Vec<u8>,
     ) -> Texture {
