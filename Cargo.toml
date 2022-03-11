@@ -10,6 +10,11 @@ publish = ["wgpu_tokio"]
 authors = ["Joatin Granlund <granlundjoatin@icloud.com>"]
 description = "Async bindings using tokio for wgpu"
 
+exclude = [
+    ".github/**/*",
+    ".pre-commit-config.yaml",
+]
+
 [dependencies]
 tokio = { version = "^1.17", features = ["rt", "rt-multi-thread"] }
 wgpu = "0.12"
