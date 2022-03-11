@@ -1,6 +1,6 @@
 [package]
 name = "wgpu_tokio"
-version = "0.0.1"
+version = "0.12.0"
 edition = "2021"
 license-file = "LICENSE.txt"
 repository = "https://github.com/Joatin/wgpu_tokio"
@@ -12,5 +12,5 @@ description = "Async bindings using tokio for wgpu"
 
 [dependencies]
 tokio = { version = "^1.17", features = ["rt", "rt-multi-thread"] }
-wgpu = "^0.12"
+wgpu = "0.12"
 async-trait = "^0.1"
