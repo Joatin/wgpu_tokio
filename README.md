@@ -18,11 +18,12 @@ This crate does all of this and puts it inside a nice and tidy trait.
 
 ## Usage
 
-Make sure you have it installed
+Make sure you have the dependencies in place
 
 ```toml
 [dependencies]
-wgpu_tokio = "0.0.1"
+wgpu = "0.12"
+wgpu_tokio = "0.12"
 ```
 
 Then in you code make sure you are using the trait
@@ -31,7 +32,7 @@ Then in you code make sure you are using the trait
 use wgpu_tokio::DeviceAsyncExt;
 ```
 
-The trait requires that the device is behind and ```Arc```. The just go ahead and do something.
+The trait requires that the device is behind and ```Arc```. Then just go ahead and do something.
 
 ```rust
 async fn do_something(device: Arc<Device>) {
