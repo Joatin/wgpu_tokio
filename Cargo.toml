@@ -1,6 +1,6 @@
 [package]
 name = "wgpu_tokio"
-version = "0.12.0"
+version = "0.12.1"
 edition = "2021"
 license-file = "LICENSE.txt"
 repository = "https://github.com/Joatin/wgpu_tokio"
