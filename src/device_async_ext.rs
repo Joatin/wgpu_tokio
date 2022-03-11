@@ -35,7 +35,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_shader_module]
     async fn create_shader_module_async<'a>(
         &'a self,
-        desc: ShaderModuleDescriptor<'a>,
+        desc: &'a ShaderModuleDescriptor<'a>,
     ) -> ShaderModule;
 
     /// Async version of the `create_shader_module_unchecked` method
@@ -43,7 +43,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_shader_module_unchecked]
     async unsafe fn create_shader_module_unchecked_async<'a>(
         &'a self,
-        desc: ShaderModuleDescriptor<'a>,
+        desc: &'a ShaderModuleDescriptor<'a>,
     ) -> ShaderModule;
 
     /// Async version of the `create_shader_module_spirv` method
@@ -51,7 +51,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_shader_module_spirv]
     async unsafe fn create_shader_module_spirv_async<'a>(
         &'a self,
-        desc: ShaderModuleDescriptorSpirV<'a>,
+        desc: &'a ShaderModuleDescriptorSpirV<'a>,
     ) -> ShaderModule;
 
     /// Async version of the `create_command_encoder` method
@@ -59,7 +59,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_command_encoder]
     async fn create_command_encoder_async<'a>(
         &'a self,
-        desc: CommandEncoderDescriptor<'a>,
+        desc: &'a CommandEncoderDescriptor<'a>,
     ) -> CommandEncoder;
 
     /// Async version of the `create_render_bundle_encoder` method
@@ -67,20 +67,20 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_render_bundle_encoder]
     async fn create_render_bundle_encoder_async<'a>(
         &'a self,
-        desc: RenderBundleEncoderDescriptor<'a>,
+        desc: &'a RenderBundleEncoderDescriptor<'a>,
     ) -> RenderBundleEncoder<'a>;
 
     /// Async version of the `create_bind_group` method
     ///
     /// See [wgpu::Device::create_bind_group]
-    async fn create_bind_group_async<'a>(&'a self, desc: BindGroupDescriptor<'a>) -> BindGroup;
+    async fn create_bind_group_async<'a>(&'a self, desc: &'a BindGroupDescriptor<'a>) -> BindGroup;
 
     /// Async version of the `create_bind_group_layout` method
     ///
     /// See [wgpu::Device::create_bind_group_layout]
     async fn create_bind_group_layout_async<'a>(
         &'a self,
-        desc: BindGroupLayoutDescriptor<'a>,
+        desc: &'a BindGroupLayoutDescriptor<'a>,
     ) -> BindGroupLayout;
 
     /// Async version of the `create_pipeline_layout` method
@@ -88,7 +88,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_pipeline_layout]
     async fn create_pipeline_layout_async<'a>(
         &'a self,
-        desc: PipelineLayoutDescriptor<'a>,
+        desc: &'a PipelineLayoutDescriptor<'a>,
     ) -> PipelineLayout;
 
     /// Async version of the `create_render_pipeline` method
@@ -96,7 +96,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_render_pipeline]
     async fn create_render_pipeline_async<'a>(
         &'a self,
-        desc: RenderPipelineDescriptor<'a>,
+        desc: &'a RenderPipelineDescriptor<'a>,
     ) -> RenderPipeline;
 
     /// Async version of the `create_compute_pipeline` method
@@ -104,28 +104,28 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_compute_pipeline]
     async fn create_compute_pipeline_async<'a>(
         &'a self,
-        desc: ComputePipelineDescriptor<'a>,
+        desc: &'a ComputePipelineDescriptor<'a>,
     ) -> ComputePipeline;
 
     /// Async version of the `create_buffer` method
     ///
     /// See [wgpu::Device::create_buffer]
-    async fn create_buffer_async<'a>(&'a self, desc: BufferDescriptor<'a>) -> Buffer;
+    async fn create_buffer_async<'a>(&'a self, desc: &'a BufferDescriptor<'a>) -> Buffer;
 
     /// Async version of the `create_texture` method
     ///
     /// See [wgpu::Device::create_texture]
-    async fn create_texture_async<'a>(&'a self, desc: TextureDescriptor<'a>) -> Texture;
+    async fn create_texture_async<'a>(&'a self, desc: &'a TextureDescriptor<'a>) -> Texture;
 
     /// Async version of the `create_sampler` method
     ///
     /// See [wgpu::Device::create_sampler]
-    async fn create_sampler_async<'a>(&'a self, desc: SamplerDescriptor<'a>) -> Sampler;
+    async fn create_sampler_async<'a>(&'a self, desc: &'a SamplerDescriptor<'a>) -> Sampler;
 
     /// Async version of the `create_query_set` method
     ///
     /// See [wgpu::Device::create_query_set]
-    async fn create_query_set_async<'a>(&'a self, desc: QuerySetDescriptor<'a>) -> QuerySet;
+    async fn create_query_set_async<'a>(&'a self, desc: &'a QuerySetDescriptor<'a>) -> QuerySet;
 
     /// Async version of the `on_uncaptured_error` method
     ///
@@ -155,7 +155,7 @@ pub trait DeviceAsyncExt {
     /// Async version of the `create_buffer_init` method
     ///
     /// See [wgpu::util::DeviceExt::create_buffer_init]
-    async fn create_buffer_init_async<'a>(&'a self, desc: BufferInitDescriptor<'a>) -> Buffer;
+    async fn create_buffer_init_async<'a>(&'a self, desc: &'a BufferInitDescriptor<'a>) -> Buffer;
 
     /// Async version of the `create_texture_with_data` method
     ///
@@ -163,7 +163,7 @@ pub trait DeviceAsyncExt {
     async fn create_texture_with_data_async<'a>(
         &'a self,
         queue: &Arc<Queue>,
-        desc: TextureDescriptor<'a>,
+        desc: &'a TextureDescriptor<'a>,
         data: Vec<u8>,
     ) -> Texture;
 }
@@ -188,98 +188,85 @@ impl DeviceAsyncExt for Arc<Device> {
 
     async fn create_shader_module_async<'a>(
         &'a self,
-        desc: ShaderModuleDescriptor<'a>,
+        desc: &'a ShaderModuleDescriptor<'a>,
     ) -> ShaderModule {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_shader_module(&desc))
+        tokio::task::block_in_place(|| self.create_shader_module(&desc))
     }
 
     async unsafe fn create_shader_module_unchecked_async<'a>(
         &'a self,
-        desc: ShaderModuleDescriptor<'a>,
+        desc: &'a ShaderModuleDescriptor<'a>,
     ) -> ShaderModule {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_shader_module_unchecked(&desc))
+        tokio::task::block_in_place(|| self.create_shader_module_unchecked(&desc))
     }
 
     async unsafe fn create_shader_module_spirv_async<'a>(
         &'a self,
-        desc: ShaderModuleDescriptorSpirV<'a>,
+        desc: &'a ShaderModuleDescriptorSpirV<'a>,
     ) -> ShaderModule {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_shader_module_spirv(&desc))
+        tokio::task::block_in_place(|| self.create_shader_module_spirv(&desc))
     }
 
     async fn create_command_encoder_async<'a>(
         &'a self,
-        desc: CommandEncoderDescriptor<'a>,
+        desc: &'a CommandEncoderDescriptor<'a>,
     ) -> CommandEncoder {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_command_encoder(&desc))
+        tokio::task::block_in_place(|| self.create_command_encoder(&desc))
     }
 
     async fn create_render_bundle_encoder_async<'a>(
         &'a self,
-        desc: RenderBundleEncoderDescriptor<'a>,
+        desc: &'a RenderBundleEncoderDescriptor<'a>,
     ) -> RenderBundleEncoder<'a> {
-        self.create_render_bundle_encoder(&desc)
+        tokio::task::block_in_place(|| self.create_render_bundle_encoder(desc))
     }
 
-    async fn create_bind_group_async<'a>(&'a self, desc: BindGroupDescriptor<'a>) -> BindGroup {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_bind_group(&desc))
+    async fn create_bind_group_async<'a>(&'a self, desc: &'a BindGroupDescriptor<'a>) -> BindGroup {
+        tokio::task::block_in_place(|| self.create_bind_group(&desc))
     }
 
     async fn create_bind_group_layout_async<'a>(
         &'a self,
-        desc: BindGroupLayoutDescriptor<'a>,
+        desc: &'a BindGroupLayoutDescriptor<'a>,
     ) -> BindGroupLayout {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_bind_group_layout(&desc))
+        tokio::task::block_in_place(|| self.create_bind_group_layout(&desc))
     }
 
     async fn create_pipeline_layout_async<'a>(
         &'a self,
-        desc: PipelineLayoutDescriptor<'a>,
+        desc: &'a PipelineLayoutDescriptor<'a>,
     ) -> PipelineLayout {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_pipeline_layout(&desc))
+        tokio::task::block_in_place(|| self.create_pipeline_layout(&desc))
     }
 
     async fn create_render_pipeline_async<'a>(
         &'a self,
-        desc: RenderPipelineDescriptor<'a>,
+        desc: &'a RenderPipelineDescriptor<'a>,
     ) -> RenderPipeline {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_render_pipeline(&desc))
+        tokio::task::block_in_place(|| self.create_render_pipeline(&desc))
     }
 
     async fn create_compute_pipeline_async<'a>(
         &'a self,
-        desc: ComputePipelineDescriptor<'a>,
+        desc: &'a ComputePipelineDescriptor<'a>,
     ) -> ComputePipeline {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_compute_pipeline(&desc))
+        tokio::task::block_in_place(|| self.create_compute_pipeline(&desc))
     }
 
-    async fn create_buffer_async<'a>(&'a self, desc: BufferDescriptor<'a>) -> Buffer {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_buffer(&desc))
+    async fn create_buffer_async<'a>(&'a self, desc: &'a BufferDescriptor<'a>) -> Buffer {
+        tokio::task::block_in_place(|| self.create_buffer(&desc))
     }
 
-    async fn create_texture_async<'a>(&'a self, desc: TextureDescriptor<'a>) -> Texture {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_texture(&desc))
+    async fn create_texture_async<'a>(&'a self, desc: &'a TextureDescriptor<'a>) -> Texture {
+        tokio::task::block_in_place(|| self.create_texture(&desc))
     }
 
-    async fn create_sampler_async<'a>(&'a self, desc: SamplerDescriptor<'a>) -> Sampler {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_sampler(&desc))
+    async fn create_sampler_async<'a>(&'a self, desc: &'a SamplerDescriptor<'a>) -> Sampler {
+        tokio::task::block_in_place(|| self.create_sampler(&desc))
     }
 
-    async fn create_query_set_async<'a>(&'a self, desc: QuerySetDescriptor<'a>) -> QuerySet {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_query_set(&desc))
+    async fn create_query_set_async<'a>(&'a self, desc: &'a QuerySetDescriptor<'a>) -> QuerySet {
+        tokio::task::block_in_place(|| self.create_query_set(&desc))
     }
 
     async fn on_uncaptured_error_async(&self, handler: impl UncapturedErrorHandler) {
@@ -302,21 +289,18 @@ impl DeviceAsyncExt for Arc<Device> {
         self.stop_capture()
     }
 
-    async fn create_buffer_init_async<'a>(&'a self, desc: BufferInitDescriptor<'a>) -> Buffer {
-        let device = Arc::clone(self);
-        tokio::task::block_in_place(move || device.create_buffer_init(&desc))
+    async fn create_buffer_init_async<'a>(&'a self, desc: &'a BufferInitDescriptor<'a>) -> Buffer {
+        tokio::task::block_in_place(|| self.create_buffer_init(&desc))
     }
 
     async fn create_texture_with_data_async<'a>(
         &'a self,
         queue: &Arc<Queue>,
-        desc: TextureDescriptor<'a>,
+        desc: &'a TextureDescriptor<'a>,
         data: Vec<u8>,
     ) -> Texture {
-        let device = Arc::clone(self);
-        let queue = Arc::clone(queue);
-        tokio::task::block_in_place(move || {
-            device.create_texture_with_data(&queue, &desc, &data)
+        tokio::task::block_in_place(|| {
+            self.create_texture_with_data(&queue, &desc, &data)
         })
     }
 }
