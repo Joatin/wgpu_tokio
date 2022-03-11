@@ -6,7 +6,6 @@ license-file = "LICENSE.txt"
 repository = "https://github.com/Joatin/wgpu_tokio"
 keywords = ["tokio", "wgpu", "gamedev", "async", "futures", "graphics"]
 categories = ["asynchronous", "game-development", "graphics", "rendering", "wasm"]
-publish = ["wgpu_tokio"]
 authors = ["Joatin Granlund <granlundjoatin@icloud.com>"]
 description = "Async bindings using tokio for wgpu"
 
