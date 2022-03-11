@@ -169,13 +169,9 @@ pub trait DeviceAsyncExt {
 }
 
 #[async_trait::async_trait]
-impl DeviceAsyncExt for Arc<Device> {
+impl DeviceAsyncExt for Device {
     async fn poll_async(&self, maintain: Maintain) {
-        let device = Arc::clone(self);
-        let handle = tokio::task::spawn_blocking(move || device.poll(maintain));
-
-        // If the inner code panics, we just pass the panic along
-        handle.await.unwrap()
+        tokio::task::block_in_place(|| self.poll(maintain));
     }
 
     async fn features_async(&self) -> Features {
@@ -190,28 +186,28 @@ impl DeviceAsyncExt for Arc<Device> {
         &'a self,
         desc: &'a ShaderModuleDescriptor<'a>,
     ) -> ShaderModule {
-        tokio::task::block_in_place(|| self.create_shader_module(&desc))
+        tokio::task::block_in_place(|| self.create_shader_module(desc))
     }
 
     async unsafe fn create_shader_module_unchecked_async<'a>(
         &'a self,
         desc: &'a ShaderModuleDescriptor<'a>,
     ) -> ShaderModule {
-        tokio::task::block_in_place(|| self.create_shader_module_unchecked(&desc))
+        tokio::task::block_in_place(|| self.create_shader_module_unchecked(desc))
     }
 
     async unsafe fn create_shader_module_spirv_async<'a>(
         &'a self,
         desc: &'a ShaderModuleDescriptorSpirV<'a>,
     ) -> ShaderModule {
-        tokio::task::block_in_place(|| self.create_shader_module_spirv(&desc))
+        tokio::task::block_in_place(|| self.create_shader_module_spirv(desc))
     }
 
     async fn create_command_encoder_async<'a>(
         &'a self,
         desc: &'a CommandEncoderDescriptor<'a>,
     ) -> CommandEncoder {
-        tokio::task::block_in_place(|| self.create_command_encoder(&desc))
+        tokio::task::block_in_place(|| self.create_command_encoder(desc))
     }
 
     async fn create_render_bundle_encoder_async<'a>(
@@ -222,51 +218,51 @@ impl DeviceAsyncExt for Arc<Device> {
     }
 
     async fn create_bind_group_async<'a>(&'a self, desc: &'a BindGroupDescriptor<'a>) -> BindGroup {
-        tokio::task::block_in_place(|| self.create_bind_group(&desc))
+        tokio::task::block_in_place(|| self.create_bind_group(desc))
     }
 
     async fn create_bind_group_layout_async<'a>(
         &'a self,
         desc: &'a BindGroupLayoutDescriptor<'a>,
     ) -> BindGroupLayout {
-        tokio::task::block_in_place(|| self.create_bind_group_layout(&desc))
+        tokio::task::block_in_place(|| self.create_bind_group_layout(desc))
     }
 
     async fn create_pipeline_layout_async<'a>(
         &'a self,
         desc: &'a PipelineLayoutDescriptor<'a>,
     ) -> PipelineLayout {
-        tokio::task::block_in_place(|| self.create_pipeline_layout(&desc))
+        tokio::task::block_in_place(|| self.create_pipeline_layout(desc))
     }
 
     async fn create_render_pipeline_async<'a>(
         &'a self,
         desc: &'a RenderPipelineDescriptor<'a>,
     ) -> RenderPipeline {
-        tokio::task::block_in_place(|| self.create_render_pipeline(&desc))
+        tokio::task::block_in_place(|| self.create_render_pipeline(desc))
     }
 
     async fn create_compute_pipeline_async<'a>(
         &'a self,
         desc: &'a ComputePipelineDescriptor<'a>,
     ) -> ComputePipeline {
-        tokio::task::block_in_place(|| self.create_compute_pipeline(&desc))
+        tokio::task::block_in_place(|| self.create_compute_pipeline(desc))
     }
 
     async fn create_buffer_async<'a>(&'a self, desc: &'a BufferDescriptor<'a>) -> Buffer {
-        tokio::task::block_in_place(|| self.create_buffer(&desc))
+        tokio::task::block_in_place(|| self.create_buffer(desc))
     }
 
     async fn create_texture_async<'a>(&'a self, desc: &'a TextureDescriptor<'a>) -> Texture {
-        tokio::task::block_in_place(|| self.create_texture(&desc))
+        tokio::task::block_in_place(|| self.create_texture(desc))
     }
 
     async fn create_sampler_async<'a>(&'a self, desc: &'a SamplerDescriptor<'a>) -> Sampler {
-        tokio::task::block_in_place(|| self.create_sampler(&desc))
+        tokio::task::block_in_place(|| self.create_sampler(desc))
     }
 
     async fn create_query_set_async<'a>(&'a self, desc: &'a QuerySetDescriptor<'a>) -> QuerySet {
-        tokio::task::block_in_place(|| self.create_query_set(&desc))
+        tokio::task::block_in_place(|| self.create_query_set(desc))
     }
 
     async fn on_uncaptured_error_async(&self, handler: impl UncapturedErrorHandler) {
@@ -290,7 +286,7 @@ impl DeviceAsyncExt for Arc<Device> {
     }
 
     async fn create_buffer_init_async<'a>(&'a self, desc: &'a BufferInitDescriptor<'a>) -> Buffer {
-        tokio::task::block_in_place(|| self.create_buffer_init(&desc))
+        tokio::task::block_in_place(|| self.create_buffer_init(desc))
     }
 
     async fn create_texture_with_data_async<'a>(
@@ -299,8 +295,6 @@ impl DeviceAsyncExt for Arc<Device> {
         desc: &'a TextureDescriptor<'a>,
         data: Vec<u8>,
     ) -> Texture {
-        tokio::task::block_in_place(|| {
-            self.create_texture_with_data(&queue, &desc, &data)
-        })
+        tokio::task::block_in_place(|| self.create_texture_with_data(queue, desc, &data))
     }
 }
