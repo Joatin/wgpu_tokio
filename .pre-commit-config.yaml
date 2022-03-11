@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: rustfmt
+        name: rustfmt
+        entry: bash -c 'cargo fmt'
+        language: system
+        types: [ rust ]
+        pass_filenames: false

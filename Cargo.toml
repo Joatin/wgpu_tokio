@@ -1,0 +1,16 @@
+[package]
+name = "wgpu_tokio"
+version = "0.0.1"
+edition = "2021"
+license-file = "LICENSE.txt"
+repository = "https://github.com/Joatin/wgpu_tokio"
+keywords = ["tokio", "wgpu", "gamedev", "async", "futures", "graphics"]
+categories = ["asynchronous", "game-development", "graphics", "rendering", "wasm"]
+publish = ["wgpu_tokio"]
+authors = ["Joatin Granlund <granlundjoatin@icloud.com>"]
+description = "Async bindings using tokio for wgpu"
+
+[dependencies]
+tokio = { version = "^1.17", features = ["rt", "rt-multi-thread"] }
+wgpu = "^0.12"
+async-trait = "^0.1"
