@@ -163,7 +163,7 @@ pub trait DeviceAsyncExt {
         &'a self,
         queue: &Queue,
         desc: &'a TextureDescriptor<'a>,
-        data: Vec<u8>,
+        data: &'a [u8],
     ) -> Texture;
 }
 
@@ -292,8 +292,8 @@ impl DeviceAsyncExt for Device {
         &'a self,
         queue: &Queue,
         desc: &'a TextureDescriptor<'a>,
-        data: Vec<u8>,
+        data: &'a [u8],
     ) -> Texture {
-        tokio::task::block_in_place(|| self.create_texture_with_data(queue, desc, &data))
+        tokio::task::block_in_place(|| self.create_texture_with_data(queue, desc, data))
     }
 }
