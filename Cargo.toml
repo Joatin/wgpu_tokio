@@ -1,6 +1,6 @@
 [package]
 name = "wgpu_tokio"
-version = "0.12.6"
+version = "0.13.0"
 edition = "2021"
 license-file = "LICENSE.txt"
 repository = "https://github.com/Joatin/wgpu_tokio"
@@ -16,5 +16,5 @@ exclude = [
 
 [dependencies]
 tokio = { version = "^1.17", features = ["rt", "rt-multi-thread"] }
-wgpu = "0.12"
+wgpu = "0.13"
 async-trait = "^0.1"

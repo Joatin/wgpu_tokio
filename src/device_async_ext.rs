@@ -34,7 +34,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_shader_module]
     async fn create_shader_module_async<'a>(
         &'a self,
-        desc: &'a ShaderModuleDescriptor<'a>,
+        desc: ShaderModuleDescriptor<'a>,
     ) -> ShaderModule;
 
     /// Async version of the `create_shader_module_unchecked` method
@@ -42,7 +42,7 @@ pub trait DeviceAsyncExt {
     /// See [wgpu::Device::create_shader_module_unchecked]
     async unsafe fn create_shader_module_unchecked_async<'a>(
         &'a self,
-        desc: &'a ShaderModuleDescriptor<'a>,
+        desc: ShaderModuleDescriptor<'a>,
     ) -> ShaderModule;
 
     /// Async version of the `create_shader_module_spirv` method
@@ -183,14 +183,14 @@ impl DeviceAsyncExt for Device {
 
     async fn create_shader_module_async<'a>(
         &'a self,
-        desc: &'a ShaderModuleDescriptor<'a>,
+        desc: ShaderModuleDescriptor<'a>,
     ) -> ShaderModule {
         tokio::task::block_in_place(|| self.create_shader_module(desc))
     }
 
     async unsafe fn create_shader_module_unchecked_async<'a>(
         &'a self,
-        desc: &'a ShaderModuleDescriptor<'a>,
+        desc: ShaderModuleDescriptor<'a>,
     ) -> ShaderModule {
         tokio::task::block_in_place(|| self.create_shader_module_unchecked(desc))
     }
